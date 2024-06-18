@@ -1,0 +1,190 @@
+def ler_dados_csv(arquivo_csv):
+    dados = []
+    with open(arquivo_csv, newline='', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        for row in reader:
+            dados.append(row)
+    return dados
+
+import pyautogui
+import time
+import csv
+from pyautogui import ImageNotFoundException
+
+# Espera inicial para dar tempo de preparar o ambiente
+time.sleep(3)
+
+# Função para ler os dados do CSV
+def ler_dados_csv(arquivo_csv):
+    dados = []
+    with open(arquivo_csv, newline='', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        for row in reader:
+            dados.append(row)
+    return dados
+
+# Função para inserir os dados usando pyautogui
+def inserir_dados(dados):
+    for linha in dados[1:]:
+        wareline = linha[0]
+        idpadrao_convenio = linha[1]
+        diagnostico = linha[2]
+        cid = linha[3]
+        localizacao_tumor = linha[4]
+        linfonodo = linha[5]
+        sigla_estadio_uicc = linha[6]
+        sigla_do_estadio = linha[7]
+        nr_grau_histo = linha[8]
+        cid_on = linha[9]
+        dt_diagnostico = linha[10]
+        tratamento_anterior = linha[11]
+        nm_finalidade = linha[12]
+        dt_inicio_trat = linha[13]
+        
+        # Ações do pyautogui para inserir dados no formulário
+        pyautogui.doubleClick(x=886, y=385)
+        time.sleep(1)
+
+        pyautogui.press('delete')
+        time.sleep(0.5)        
+        
+        pyautogui.write(wareline)
+        time.sleep(0.5)
+
+        pyautogui.press('enter', presses=4, interval=0.5)
+
+        try:
+            if pyautogui.locateOnScreen('msgwareline.png', confidence=0.9):
+                print(f"Erro encontrado para o wareline {wareline}, pulando para o próximo registro.")
+                pyautogui.press('esc')
+                continue
+        except ImageNotFoundException:
+            print(f"Imagem de erro não encontrada, continuando com o registro {wareline}")
+
+        # Mais ações de pyautogui para continuar inserindo dados
+        pyautogui.press('end')
+        time.sleep(0.5)
+        
+        pyautogui.press('backspace')
+        time.sleep(0.5)
+        
+        pyautogui.write('3')
+        time.sleep(0.5)
+        
+        pyautogui.press('enter', presses=2, interval=0.5)
+        
+        pyautogui.write('01062024')
+        time.sleep(0.5)
+        
+        pyautogui.press('enter', presses=6, interval=0.5)
+        
+        pyautogui.press('end')
+        time.sleep(0.5)
+        
+        pyautogui.press('backspace')
+        time.sleep(0.5)
+        
+        pyautogui.write('3')
+        time.sleep(0.5)
+                
+        pyautogui.press('enter', presses=2, interval=0.5)
+        
+        pyautogui.write('1')
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        
+        pyautogui.doubleClick(x=632, y=674)
+        time.sleep(1)
+        
+        pyautogui.write(diagnostico)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.write(cid)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.click(x=878, y=350)
+        time.sleep(0.5)
+        
+        pyautogui.write(localizacao_tumor)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter', presses=2, interval=0.5)
+        
+        pyautogui.write(linfonodo)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter', presses=2, interval=0.5)
+        
+        pyautogui.hotkey('shift', 'insert')
+        pyautogui.write(sigla_estadio_uicc)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.write(sigla_do_estadio)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter', presses=3, interval=0.5)
+        
+        pyautogui.write(nr_grau_histo)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.doubleClick(x=700, y=481)
+        time.sleep(0.5)
+        
+        pyautogui.write(cid_on)
+        time.sleep(0.5)
+        
+        pyautogui.click(x=798, y=483)
+        time.sleep(1)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.write(dt_diagnostico)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.write(tratamento_anterior)
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.write(nm_finalidade)
+        time.sleep(1)
+        
+        pyautogui.doubleClick(x=729, y=670)
+        time.sleep(1)        
+        
+        pyautogui.write('s')
+        time.sleep(0.5)
+        
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        
+        pyautogui.write(dt_inicio_trat)
+        time.sleep(0.5)
+
+        pyautogui.hotkey('ctrl', 's')
+        time.sleep(0.5)
+        pyautogui.press('enter')
+
+# Leitura dos dados do CSV
+dados = ler_dados_csv('teste.csv')
+
+# Inserção dos dados no sistema
+inserir_dados(dados)
